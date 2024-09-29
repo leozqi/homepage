@@ -1,0 +1,61 @@
+:root {
+  --body-font: 'Helvetica', sans-serif;
+  --heading-font: 'Charter', serif;
+  --bg-color: #eee;
+  --fg-color: #000;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  font-family: var(--body-font);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font);
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+}
+
+#profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80%;
+}
+
+#profile-container img {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+}
+
+#socials {
+  border-top: 1px solid var(--fg-color);
+  padding-top: 1em;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1em;
+}
+
+a {
+  color: green;
+}
+
+#about {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  padding: 1em 2em 1em 2em;
+  width: 50%;
+  text-align: justified;
+  margin-top: 2em;
+}
