@@ -26,6 +26,7 @@
       <li><a href="#random-variables">Random variables</a></li>
     </ol>
   </nav>
+  <main>
   <article class="indent-pars">
     <h2 id="probability-axioms">The fundamental axioms</h2>
     <div class="definition">
@@ -87,15 +88,42 @@
 
     <h2 id="random-variables">Random variables</h2>
     <div class="definition">
-      A random variable is a function  
+      A random variable is a function \(X:\Omega\to\mathbb{R}\) that is
+      \(\mathcal{F}\) measurable.<sup><a href="#fn2" id="ref2">2</a></sup>
+
+      <span class="sidenote">
+        This means that for any number \(c\),
+        \(\{\omega\in\Omega: X(\omega) \le c\}\in\mathcal{F}\)
+      </span>
+    </div>
+    <p>
+      If the sample space is finite or countably infinite, \(\mathcal{F}\) is
+      most often defined to be the power set of \(\Omega\), and any function from
+      \(\Omega\) to \(\mathbb{R}\) will be \(\mathcal{F}\) measurable and thus a
+      random variable.
+      Therefore, for practical purposes we may assume that any function that
+      maps events (which have corresponding probabilities) to real numbers is a
+      random variable.
+    <p>
+    <p>
+      This is extremely useful, because we can now give values to events to
+      model real-world phenomena. For example, we can define one random variable
+      \(X\) that represents the number of heads in a series of coin flips to talk
+      about the probability, instead of using the events themselves.
+    </p>
+
+    <div class="footnotes">
+      <p>Last updated: 2024-12-03 14:03 EST</p>
+      <p id="fn1">
+        [1] E. T. Jaynes, <em>Probability theory: the logic of science.</em>
+        Cambridge University Press, 2003. <a href="#ref1">&#x21A9;</a>
+      </p>
+      <p id="fn2">
+        [2] B. Hajek, <em>Random processes for engineers.</em>
+        Cambridge University Press, 2015. <a href="#ref2">&#x21A9;</a>
+      </p>
     </div>
   </article>
-
-  <div class="footnotes">
-    <p id="fn1">
-      1. E. T. Jaynes, <em>Probability theory: the logic of science</em>.
-      Cambridge University Press, 2003. <a href="#ref1">&#x21A9;</a>
-    </p>
-  </div>
+</main>
 </body>
 </html>
