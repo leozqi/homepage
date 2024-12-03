@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Leo Qi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ECE 203 course notes" />
+    <link rel="stylesheet" href="https://latex.vercel.app/style.min.css" />
+    <link rel="icon" href="favicon.ico" />
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="https://latex.vercel.app/prism/prism.css">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+</head>
+<body class="libertinus">
+  <header>
+    <h1>Probability for Engineers</h1>
+    <p class="author">Leo Qi <br> December 3rd, 2024</p>
+  </header>
+  <div class="abstract">
+    <h2>Abstract</h2>
+    <p>Let's document our discovery of probability for engineers.</p>
+  </div>
+  <nav role="navigation" class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#probability-axioms">The fundamental axioms</a></li>
+      <li><a href="#random-variables">Random variables</a></li>
+    </ol>
+  </nav>
+  <article class="indent-pars">
+    <h2 id="probability-axioms">The fundamental axioms</h2>
+    <div class="definition">
+      A probability space is a triplet \((\Omega, \mathcal{F}, \mathcal{P})\).
+      \(\Omega\) is a nonempty set called the <em>sample space</em>,
+      \(\mathcal{F}\) is a set of subsets of \(\Omega\) called <em>events</em>,
+      and the component \(\mathcal{P}\) is a <em>probability measure</em> on
+      \(\mathcal{F}\).
+      <span class="sidenote">
+        A probability measure is a measure, which is a function satisfying
+        certain properties. We call it a probability measure because we define
+        a set of additional axioms this function must satisfy.
+      </span>
+    </div>
+    <div class="definition">
+      The first component \(\Omega\) is a nonempty set called the <em>sample
+      space</em>. Each element \(\omega \in \Omega\) is called an <em>outcome</em>.
+    </div>
+    <div class="definition">
+      Events \(A_i\in\mathcal{F}\) are mutually exclusive, also known as disjoint,
+      if \(A_i\cap A_j = \emptyset\) for all \(i\ne j\).
+    </div>
+    <p>
+      We can now define the function that assigns probabilities to events
+      in the sample space. This function must satisfy the axioms of probability
+      theory.
+    </p>
+    <div class="definition">
+      A probability measure is any measure \(P\) on \(\mathcal{F}\)
+      that satisfies the axioms of probability theory:
+
+      <ol>
+        <li>\(P(A) \ge 0\, \forall A\in\mathcal{F}\)</li>
+        <li>\(P(\Omega) = 1\)</li>
+        <li>If \(A_1, A_2, \ldots\) are disjoint events, then
+          \(P(\bigcup_{i=1}^\infty A_i) = \sum_{i=1}^\infty P(A_i)\)</li>
+      </ol>
+    </div>
+    <p>
+      The probability measure assigns a real number to each event that
+      represents how likely it is to happen. This is called the <em>probability</em>
+      of the event. For the math to make sense, this number must be nonnegative.
+      The probability of the entire sample space is 1, so any event that has
+      probability 1 is certain to happen. We can also derive more properties from
+      these axioms. For any subsets \(A, B, C\in\mathcal{F}\):
+      <span class="sidenote">
+        \(P\) did not have to be defined this way. The only
+        requirement is that it is a &#8220;positive continuous monotonic function.&#8221;
+        An alternate definition could have been from infinity (impossible)
+        <em>down</em> to one (certain)! <sup><a href="#fn1" id="ref1">1</a></sup>
+      </span>
+    </p>
+    <ol>
+      <li>\(A\subseteq B \implies P(A) \le P(B)\)</li>
+      <li>\(P(A^c) = 1 - P(A)\)</li>
+      <li>\(P(A\cup B) = P(A) + P(B) - P(A\cap B)\)</li>
+      <li>\(P(\emptyset) = 0\)</li>
+    </ol>
+
+    <h2 id="random-variables">Random variables</h2>
+    <div class="definition">
+      A random variable is a function  
+    </div>
+  </article>
+
+  <div class="footnotes">
+    <p id="fn1">
+      1. E. T. Jaynes, <em>Probability theory: the logic of science</em>.
+      Cambridge University Press, 2003. <a href="#ref1">&#x21A9;</a>
+    </p>
+  </div>
+</body>
+</html>
