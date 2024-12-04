@@ -9,6 +9,28 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="stylesheet" href="https://latex.vercel.app/prism/prism.css">
     <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+  <style>
+  /* width */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  </style>
 </head>
 <body class="libertinus">
   <header>
@@ -141,22 +163,7 @@
       In the above, the notation <code>P(x :: xs)</code> refers to the predicate
       applied to the list with new element <code>x</code> "pushed" onto it.
       The push operation appends a new element to the front of the list.
-      For example:
-    </p>
-    <pre>
-      <code class="language-lean">
-        size [13,12,11]
-        = 1 + size[12,11]
-        = 1 + 1 + size[11]
-        = 1 + 1 + 1 + size[]
-        = 1 + 1 + 1 + 0
-        = 1 + 1 + 1
-        = 1 + 2
-        = 3
-      </code>
-    </pre>
-    <p>
-      Likewise, here is how we "splice" two lists together in a formal way.
+      Here is how we "splice" two lists together in a formal way.
     </p>
     <pre>
       <code class="language-lean">
@@ -179,6 +186,90 @@
           = [0,1,2,10,11,12,13]
       </code>
     </pre>
+   
+    <h3>Size of a spliced list</h3>
+    <p>
+      Let's prove that if \(xs\) and \(ys\) are lists, then 
+      <code>size (splice xs ys) = size xs + size ys</code> using list induction.
+      The entirety of the proof is copied from Prof. Aagaard's lecture notes. <a href="#fn1" id="ref1">[1]</a>
+      We'll use the definitions that
+    <p>
+    <pre>
+      <code class="language-lean">
+        abbrev size : (List Ty) -> Nat
+          | []        => 0
+          | (x :: xs) => 1 + size xs
+
+        abbrev splice : (xs ys : List Ty) -> List Ty :=
+          | []   , ys => ys
+          | x::xs, ys => x :: (splice x ys)
+      </code>
+    </pre>
+    <div class="proof">
+      Proof via list induction.
+
+      <pre>
+        <code class="language-lean">
+|- \forall (xs ys : List Ty), size splice xs ys = size xs + size ys
+-- Induct on xs, because splice recurses on it. The second list
+-- is held in place and pushed.
+-- P(xs) = size splice xs ys = size xs + size ys, with fixed ys
+
+By InductList
+-- 1: induction is always done on the outermost operator in the goal, which
+--    must be a universally quantified variable.
+-- 2: induction is done on exactly one variable.
+{
+  Subproof 1: "base case"
+    -- Base case: replace each occurence of xs with [] in the goal
+    -- size [Ty] is taking the size of an empty list of type Ty.
+    |- \forall (ys : List Ty), size splice [] ys = size [Ty] + size ys
+    By ForallElim Goal
+    Asm 1/1: Var (ys: List Ty)
+    |- size splice [] ys = size [Ty] + size ys
+    By Subst splice Into Goal
+    |- size ys = size [Ty] + size ys
+    By Subst size Into Goal
+    |- size ys = 0 + size ys
+    QED Arith
+  Subproof 2: "inductive case"
+    -- declare the list we induct on
+    Asm 2/1: Var (xs: List Ty)
+    -- inductive assumption: original goal with forall removed
+    Asm 2/2: \forall(ys: List Ty), size splice xs ys = size xs + size ys
+    -- declare the element we push onto the list
+    Asm 2/3: Var (x: Ty)
+    -- goal is original goal with xs replaced by x :: xs
+    |- \forall(ys : List Ty), size splice (x :: xs) ys = size (x :: xs) + size ys
+    ByForallElim Goal
+    Asm 2/4: Var (ys: List Ty)
+    |- size splice (x :: xs) ys = size (x :: xs) + size ys
+    By Subst splice Into Goal
+    |- size (x :: (splice xs ys)) = size (x :: xs) + size ys
+    By Subst size Into Goal
+    |- 1 + size (splice xs ys) = 1 + size xs + size ys
+    By Subst Asm 2/2 Into Goal
+    |- 1 + size xs + size ys = 1 + size xs + size ys
+    QED Logic
+}
+
+-- Alternate proof strategy
+abbrev alternate := Proof
+  Asm 2/1: Var (xs: List Ty)
+  Asm 2/2: \forall(ys: List Ty), size splice xs ys = size xs + size ys
+  |- \forall(ys : List Ty), 1 + size splice xs ys = 1 + size xs + size ys
+  By Assert Goal By Arith
+  |- \forall(ys : List Ty), size splice xs ys = size xs + size ys
+  QED Asm 2/2
+        </code>
+      </pre>
+      <br />
+    </div>
+
+    <h2 id="induction-set">Set induction</h2>
+    <p>
+
+    </p>
 
     <div class="footnotes">
       <p class="no-indent">Last updated: 2024-12-03 14:03 EST</p>
