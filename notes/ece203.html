@@ -22,28 +22,26 @@
   <nav role="navigation" class="toc">
     <h2>Contents</h2>
     <ol>
-      <li><a href="#probability-axioms">The fundamental axioms</a></li>
+      <li><a href="#probability-axioms">The axioms of probability theory</a></li>
       <li><a href="#random-variables">Random variables</a></li>
     </ol>
   </nav>
   <main>
   <article class="indent-pars">
-    <h2 id="probability-axioms">The fundamental axioms</h2>
+    <h2 id="probability-axioms">The axioms of probability theory</h2>
     <div class="definition">
-      A probability space is a triplet \((\Omega, \mathcal{F}, \mathcal{P})\).
+      A probability space is a triplet \((\Omega, \mathcal{F}, P)\).
       \(\Omega\) is a nonempty set called the <em>sample space</em>,
       \(\mathcal{F}\) is a set of subsets of \(\Omega\) called <em>events</em>,
-      and the component \(\mathcal{P}\) is a <em>probability measure</em> on
-      \(\mathcal{F}\).
+      and \(P\) is called a <em>probability measure</em> on \(\mathcal{F}\).
       <span class="sidenote">
         A probability measure is a measure, which is a function satisfying
-        certain properties. We call it a probability measure because we define
-        a set of additional axioms this function must satisfy.
+        certain properties. We define additional axioms it must satisfy.
       </span>
     </div>
     <div class="definition">
-      The first component \(\Omega\) is a nonempty set called the <em>sample
-      space</em>. Each element \(\omega \in \Omega\) is called an <em>outcome</em>.
+      \(\Omega\) is a nonempty set called the <em>sample space</em>. Each
+      element \(\omega \in \Omega\) is called an <em>outcome</em>.
     </div>
     <div class="definition">
       Events \(A_i\in\mathcal{F}\) are mutually exclusive, also known as disjoint,
@@ -51,12 +49,12 @@
     </div>
     <p>
       We can now define the function that assigns probabilities to events
-      in the sample space. This function must satisfy the axioms of probability
+      in the sample space. This function must satisfy The axioms of probability theory
       theory.
     </p>
     <div class="definition">
       A probability measure is any measure \(P\) on \(\mathcal{F}\)
-      that satisfies the axioms of probability theory:
+      that satisfies The axioms of probability theory theory:
 
       <ol>
         <li>\(P(A) \ge 0\, \forall A\in\mathcal{F}\)</li>
@@ -112,15 +110,56 @@
       about the probability, instead of using the events themselves.
     </p>
 
+    <h2>Bayes' theorem</h2>
+    <ul>
+      <li>Tests are not events. We have a cancer test, separate from the event
+      of actually having cancer.</li>
+      <li>Tests are flawed. They may detect things that don't exist (false 
+      positives) or fail to detect things that do exist (false negatives).</li>
+      <li>False positives skew results. Suppose the test is 99% accurate. If
+      the disease is rare, the test will be wrong more often than right.</li>
+      <li>People prefer natural numbers. Saying &#8220;1 in 1000&#8221; is more
+      understandable than &#8220;0.1%&#8221;.</li>
+      <li>Even science is a test. Scientific experients are potentially flawed
+        and need to be treated accordingly. There is a test for a phenomenon and
+        then there is the event of the phenomenon itself.</li>
+    </ul>
+    <p>
+      Bayes' theorem converts the results from your test into the real probability
+      of the event.<sup><a href="#fn3" id="ref3">3</a></sup> We can correct for
+      measurement errors if you know the real
+      probabilities and the chance of a false positive and false negative, and
+      relate the actual probability to the measured test probability.
+    </p>
+    <p>
+      This is finding \(P[H|E]\), the chance that a hypothesis is true given
+      evidence \(E\), starting from \(P[E|H]\), the chance that the evidence
+      appears when the hypothesis is true.
+
+      \[P[H|E] = \frac{P[E|H]P[H]}{P[E|H]P[H] + P[E|H^c]P[H^c]}\]
+    </p>
+
     <div class="footnotes">
-      <p>Last updated: 2024-12-03 14:03 EST</p>
-      <p id="fn1">
+      <p class="no-indent">Last updated: 2024-12-03 14:03 EST</p>
+      <p class="no-indent" id="fn1">
         [1] E. T. Jaynes, <em>Probability theory: the logic of science.</em>
         Cambridge University Press, 2003. <a href="#ref1">&#x21A9;</a>
       </p>
-      <p id="fn2">
+      <p class="no-indent" id="fn2">
         [2] B. Hajek, <em>Random processes for engineers.</em>
         Cambridge University Press, 2015. <a href="#ref2">&#x21A9;</a>
+      </p>
+      <p class="no-indent" id="fn3">
+        [3] K. Azad, &#8220;An intuitive (and short) explanation of bayes' theorem,&#8221;
+        Better Explained. <a href="#ref3">&#x21A9;</a>
+      </p>
+      <p class="no-indent" id="fn4">
+        [4] K. R. Davidson, &#8220;Measure Theory - Notes for Pure Math 451,&#8221;
+        University of Waterloo, 2022. <a href="#ref4">&#x21A9;</a>
+      </p>
+      <p class="no-indent" id="fn5">
+        [5] P. Mitran, &#8220;Lecture notes for ECE 203,&#8221;
+        University of Waterloo, 2024. <a href="#ref5">&#x21A9;</a>
       </p>
     </div>
   </article>
