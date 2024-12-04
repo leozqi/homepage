@@ -3,12 +3,13 @@
 <head>
   <title>Logic 2 - Leo Qi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="ECE 208 course notes" />
-    <link rel="stylesheet" href="/assets/latex.vercel.app.style.min.css" />
-    <script id="MathJax-script" async src="/assets/npm.mathjax3.es5.tex-mml-chtml.js"></script>
-    <link rel="stylesheet" href="/assets/latex.vercel.app.prism.css" />
-    <script async defer src="/assets/npm.prism.min.js"></script>
-    <link rel="icon" href="/favicon.ico" />
+  <meta name="description" content="ECE 208 course notes" />
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/assets/latex.vercel.app.style.min.css" />
+  <script id="MathJax-script" async src="/assets/npm.mathjax3.es5.tex-mml-chtml.js"></script>
+  <link rel="stylesheet" href="/assets/latex.vercel.app.prism.css" />
+  <script async defer src="/assets/npm.prism.min.js"></script>
+  <link rel="icon" href="/favicon.ico" />
   <style>
   /* width */
   ::-webkit-scrollbar {
@@ -67,11 +68,9 @@
       to do so.<sup><a href="#fn1" id="ref1">1</a></sup>
     </div>
 
-    <pre>
-      <code class="language-lean">
-Var (x : Nat)
+    <pre><code class="language-lean">Var (x : Nat)
 |- P
-By Cases x < 10, x >= 10 /\ even x, x >= 10 /\ odd x;
+By Cases x < 10, x >= 10 ∧ even x, x >= 10 ∧ odd x;
 {
   Subproof 1: "completeness"
     QED Arith
@@ -79,13 +78,12 @@ By Cases x < 10, x >= 10 /\ even x, x >= 10 /\ odd x;
     Asm 2/1: x < 10
     -- Continue subproof
   Subproof 3: "case 2"
-    Asm 3/1: x >= 10 /\ even x
+    Asm 3/1: x >= 10 ∧ even x
     -- Continue subproof
   Subproof 4: "case 3"
-    Asm 4/1: x >= 10 /\ odd x
+    Asm 4/1: x >= 10 ∧ odd x
     -- Continue subproof
-}</code>
-    </pre>
+}</code></pre>
 
     <p>
       The goal is to first prove that the list of cases itself is complete and
@@ -146,9 +144,7 @@ By Cases x < 10, x >= 10 /\ even x, x >= 10 /\ odd x;
       additional element. Our goal is therefore
       \(\forall(xs : \text{List } Ty),\ P(xs)\).
     </p>
-    <pre>
-      <code class="language-lean">
-|- \forall(xs : List Ty), P(xs)
+    <pre><code class="language-lean">|- \forall(xs : List Ty), P(xs)
 By InductList
 {
   Subproof 1: "base case"
@@ -160,17 +156,14 @@ By InductList
     Asm 2/3: Var (x: Ty)
     |- P(x :: xs)
     -- Continue subproof
-}</code>
-    </pre>
+}</code></pre>
     <p>
       In the above, the notation <code>P(x :: xs)</code> refers to the predicate
       applied to the list with new element <code>x</code> "pushed" onto it.
       The push operation appends a new element to the front of the list.
       Here is how we "splice" two lists together in a formal way.
     </p>
-    <pre>
-      <code class="language-lean">
-abbrev splice : (xs ys: List Ty) -> List Ty :=
+    <pre><code class="language-lean">abbrev splice : (xs ys: List Ty) -> List Ty :=
   | [], ys => ys
   | x :: xs, ys => x :: (splice x ys)
 
@@ -186,8 +179,7 @@ splice(xs1, xs2)
   = 0 :: 1 :: 2 :: [10,11,12,13]
   = 0 :: 1 :: [2,10,11,12,13]
   = 0 :: [1,2,10,11,12,13]
-  = [0,1,2,10,11,12,13]</code>
-    </pre>
+  = [0,1,2,10,11,12,13]</code></pre>
    
     <h3 id="size-of-a-spliced-list">Size of a spliced list</h3>
     <p>
@@ -209,9 +201,7 @@ abbrev splice : (xs ys : List Ty) -> List Ty :=
     <div class="proof">
       Proof via list induction.
 
-      <pre>
-        <code class="language-lean">
-|- \forall (xs ys : List Ty), size splice xs ys = size xs + size ys
+      <pre><code class="language-lean">|- \forall (xs ys : List Ty), size splice xs ys = size xs + size ys
 -- Induct on xs, because splice recurses on it. The second list
 -- is held in place and pushed.
 -- P(xs) = size splice xs ys = size xs + size ys, with fixed ys
@@ -261,8 +251,7 @@ abbrev alternate := Proof
   |- \forall(ys : List Ty), 1 + size splice xs ys = 1 + size xs + size ys
   By Assert Goal By Arith
   |- \forall(ys : List Ty), size splice xs ys = size xs + size ys
-  QED Asm 2/2</code>
-      </pre>
+  QED Asm 2/2</code></pre>
       <br />
     </div>
 
@@ -272,9 +261,7 @@ abbrev alternate := Proof
       prove the property for the empty set, and then prove that if the property
       holds for an arbitrary set, it also holds for the set with an additional
       element. Our goal is that \(\forall(s : \text{Set } Ty),\ p(s)\).
-    <pre>
-      <code class="language-lean">
-|- \forall(s : Set Ty), p s
+    <pre><code class="language-lean">|- \forall(s : Set Ty), p s
 By InductSet
 {
   Subproof 1: "base case"
@@ -286,15 +273,12 @@ By InductSet
     Asm 2/3: Var (x: Ty)
     Asm 2/4: \not (x \in s)
     |- p ({x} \cup s)
-}</code>
-    </pre>
+}</code></pre>
     <p>
       For the case of <em>strong set induction</em>, we assume for the inductive
       case that the property holds for all strict subsets of \(s\).
     </p>
-    <pre>
-      <code class="language-lean">
-|- \forall(s : Set Ty), p s
+    <pre><code class="language-lean">|- \forall(s : Set Ty), p s
 By InductStrongSet
 {
   Subproof 1: "base case"
@@ -305,14 +289,50 @@ By InductStrongSet
     Asm 2/2: \forall (sl : Set Ty), sl \subset s -> p sl
     |- p s
     -- Continue proof
-}</code>
-    </pre>
+}</code></pre>
 
     <h2 id="graphs">Graphs</h2>
+    <p>
+      In this section, we will first define what a graph is using the graph
+      type, and then
+      constructively place constraints on this definition to define directed
+      acyclic graphs, trees, and binary trees.
+    </p>
     <div class="definition">
       A graph is a pair \(G = (V, E)\) where \(V\) is a set of vertices of type
       \(\mathbb{N}\) and \(E\) is a set of edges of type \( (i, j)\in\mathbb{N}^2\).
     </div>
+    <span class="sidenote">
+      For more information on inductive types, see <a href="#fn3" id="ref3">[3]</a>.
+      In brief, each line defines a constructor. Our first argument to this
+      constructor is the
+      set of vertices, and the second argument is the set of edges.
+    </span>
+    <pre><code class="language-lean">/-
+ * Directed graph using natural numbers to identify the vertices.
+ -/
+
+abbrev Vertex : Type := Nat
+abbrev Edge : Type := (Vertex × Vertex)
+
+abbrev Vertices : Type := Set Vertex
+abbrev Edges    : Type := Set Edge
+
+inductive Graph where
+  | graph : (Set Nat) -> (Set (Nat × Nat)) -> Graph
+open Graph
+
+abbrev edges : (g:Graph) -> Edges
+  | graph vertices edges => edges
+
+abbrev vertices : (g:Graph) -> Vertices
+  | graph vertices edges => vertices
+
+-- Guarantees that the vertices referenced in the edges are in the graph
+abbrev isGraph (g:Graph) :=
+  \forall (v1 v2 : Vertex), (v1,v2) \in edges g ->
+    v1 \in vertices g
+    ∧ v2 \in vertices g</code></pre>
     <p>
       An edge is an ordered or unordered pair of natural numbers representing
       two vertices and their connection.
@@ -322,14 +342,75 @@ By InductStrongSet
       destination. If the graph is <em>undirected</em>, then the edges are
       unordered pairs.
     </div>
+    <p>
+      Now, we can construct the necessary propositions to perform strong induction
+      with graphs. Remember that strong induction requires that an "empty graph"
+      is defined, and that the inductive case assumes that the property holds for
+      all strict subsets of the graph. We can define strict subsets for vertices
+      or edges.
+    </p>
+    <pre><code class="language-lean">abbrev emptyGraph := graph empty empty
+
+abbrev subgraphV (g1 g2 : Graph) : Prop :=
+  isGraph g1 ∧
+  vertices g1 ⊂ vertices g2 ∧
+  edges g1 ⊆ edges g2
+
+abbrev subgraphE (g1 g2 : Graph) : Prop :=
+  isGraph g1 ∧
+  vertices g1 ⊆ vertices g2 ∧
+  edges g1 ⊂ edges g2</code></pre>
+    <p>
+      Note that we distinguish between strict subsets and non-strict subsets
+      using the symbols \(\subset\) and \(\subseteq\), respectively.
+    </p>
+
+    <h3 id="formalizing-a-tree">Formalizing a tree</h3>
     <div class="definition">
       A tree is a graph with a unique vertex (the root) such that for each vertex,
       there is a unique path from the root to that vertex.
     </div>
     <p>
-      With this definition, it is clear that a tree is a connected graph with no
-      cycles.
+      Now there are some new things to formalize. What is a path, for
+      example? We can define a path as a list of vertices, with
+      the first vertex the root and the last vertex the destination. We can
+      check if this path exists by making sure that each pair of adjacent
+      vertices is an edge in the graph.
     </p>
+    <pre><code class="language-lean">-- Recursive definition comparing each pair of adjacent vertices
+abbrev isPath : (p: List Vertex) -> (g : Graph) -> Prop
+  | [],  g => True
+  | [v], g => v \in vertices g
+  | v1::v2::vs, g => (v1,v2) \in edges g ∧ isPath (v2::vs) g
+
+abbrev existsPath (v1 v2 : Vertex) (g : Graph) : Prop :=
+  ∃ (p : List Vertex),
+    isPath p g ∧
+    v1 = List.front p ∧
+    v2 = List.back p</code></pre>
+    <p>
+      The uniqueness quantification, &#8220;\(\exists!\)&#8221;, means that
+      there exists a unique element that satisfies the property. With this,
+      we have enough to test if a graph is a tree.
+    </p>    
+    <pre><code class="language-lean">abbrev isTree (g : Graph) : Prop :=
+  isGraph g ∧
+  ∃! (root : Vertex), root \in vertices g ∧
+    ∀ (v : Vertex), v \in vertices g ->
+      ∃! (p : List Vertex), isPath p g</code></pre>
+    <p>
+      We can also define a binary tree as a tree where each vertex has at most two children.
+    </p>
+    <pre><code class="language-lean">abbrev size : (Set Ty) -> Nat
+  | []        => 0
+  | (x :: xs) => 1 + size xs
+
+abbrev next (v1 : Vertex) (g : Graph) : Set Vertex :=
+  { v2 \in vertices g, (v1, v2) \in edges g }
+
+abbrev isBinaryTree (g : Graph) : Prop :=
+  isTree g ∧
+  ∀ (v : Vertex), v \in vertices g -> size (next v g) ≤ 2</code></pre>
     <div class="definition">
       A bipartite graph is a graph where the vertices can be divided into two
       disjoint sets, such that the vertices in one set are not connected to each
@@ -368,7 +449,7 @@ By InductStrongSet
       </p>
       <p class="no-indent" id="fn3">
         [3] J. Avigad, L. de Moura, S. Kong, and S. Ullrich,
-        <em>Theorem Proving in Lean 4.</em> 2024. <a href="#ref3">&#x21A9;</a>
+        <em>Theorem Proving in Lean 4.</em> 2024. <a href="https://lean-lang.org/theorem_proving_in_lean4/inductive_types.html">[Online]</a> <a href="#ref3">&#x21A9;</a>
     </div>
   </article>
 </main>
