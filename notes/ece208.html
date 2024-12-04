@@ -3,7 +3,7 @@
 <head>
   <title>Logic 2 - Leo Qi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="ECE 203 course notes" />
+    <meta name="description" content="ECE 208 course notes" />
     <link rel="stylesheet" href="/assets/latex.vercel.app.style.min.css" />
     <script id="MathJax-script" async src="/assets/npm.mathjax3.es5.tex-mml-chtml.js"></script>
     <link rel="stylesheet" href="/assets/latex.vercel.app.prism.css" />
@@ -49,6 +49,11 @@
       <li><a href="#case-splitting">Case splitting</a></li>
       <li><a href="#induction">Natural number induction</a></li>
       <li><a href="#induction-list">List induction</a></li>
+      <ol>
+        <li><a href="#size-of-a-spliced-list">Size of a spliced list</a></li>
+      </ol>
+      <li><a href="#induction-set">Set induction</a></li>
+      <li><a href="#graphs">Graphs</a></li>
     </ol>
   </nav>
   <main>
@@ -79,8 +84,7 @@ By Cases x < 10, x >= 10 /\ even x, x >= 10 /\ odd x;
   Subproof 4: "case 3"
     Asm 4/1: x >= 10 /\ odd x
     -- Continue subproof
-}
-      </code>
+}</code>
     </pre>
 
     <p>
@@ -156,8 +160,7 @@ By InductList
     Asm 2/3: Var (x: Ty)
     |- P(x :: xs)
     -- Continue subproof
-}
-      </code>
+}</code>
     </pre>
     <p>
       In the above, the notation <code>P(x :: xs)</code> refers to the predicate
@@ -183,11 +186,10 @@ splice(xs1, xs2)
   = 0 :: 1 :: 2 :: [10,11,12,13]
   = 0 :: 1 :: [2,10,11,12,13]
   = 0 :: [1,2,10,11,12,13]
-  = [0,1,2,10,11,12,13]
-      </code>
+  = [0,1,2,10,11,12,13]</code>
     </pre>
    
-    <h3>Size of a spliced list</h3>
+    <h3 id="size-of-a-spliced-list">Size of a spliced list</h3>
     <p>
       Let's prove that if \(xs\) and \(ys\) are lists, then 
       <code>size (splice xs ys) = size xs + size ys</code> using list induction.
@@ -202,8 +204,7 @@ abbrev size : (List Ty) -> Nat
 
 abbrev splice : (xs ys : List Ty) -> List Ty :=
   | []   , ys => ys
-  | x::xs, ys => x :: (splice x ys)
-      </code>
+  | x::xs, ys => x :: (splice x ys)</code>
     </pre>
     <div class="proof">
       Proof via list induction.
@@ -260,23 +261,114 @@ abbrev alternate := Proof
   |- \forall(ys : List Ty), 1 + size splice xs ys = 1 + size xs + size ys
   By Assert Goal By Arith
   |- \forall(ys : List Ty), size splice xs ys = size xs + size ys
-  QED Asm 2/2
-        </code>
+  QED Asm 2/2</code>
       </pre>
       <br />
     </div>
 
     <h2 id="induction-set">Set induction</h2>
     <p>
+      The procedure for set induction is similar to list induction. We first
+      prove the property for the empty set, and then prove that if the property
+      holds for an arbitrary set, it also holds for the set with an additional
+      element. Our goal is that \(\forall(s : \text{Set } Ty),\ p(s)\).
+    <pre>
+      <code class="language-lean">
+|- \forall(s : Set Ty), p s
+By InductSet
+{
+  Subproof 1: "base case"
+    |- p \empty
+    QED -- show that this satisfies goal
+  Subproof 2: "inductive case"
+    Asm 2/1: Var (s: Set Ty)
+    Asm 2/2: p s
+    Asm 2/3: Var (x: Ty)
+    Asm 2/4: \not (x \in s)
+    |- p ({x} \cup s)
+}</code>
+    </pre>
+    <p>
+      For the case of <em>strong set induction</em>, we assume for the inductive
+      case that the property holds for all strict subsets of \(s\).
+    </p>
+    <pre>
+      <code class="language-lean">
+|- \forall(s : Set Ty), p s
+By InductStrongSet
+{
+  Subproof 1: "base case"
+    |- p \empty
+    QED -- show that this satisfies goal
+  Subproof 2: "inductive case"
+    Asm 2/1: Var (s: Set Ty)
+    Asm 2/2: \forall (sl : Set Ty), sl \subset s -> p sl
+    |- p s
+    -- Continue proof
+}</code>
+    </pre>
 
+    <h2 id="graphs">Graphs</h2>
+    <div class="definition">
+      A graph is a pair \(G = (V, E)\) where \(V\) is a set of vertices of type
+      \(\mathbb{N}\) and \(E\) is a set of edges of type \( (i, j)\in\mathbb{N}^2\).
+    </div>
+    <p>
+      An edge is an ordered or unordered pair of natural numbers representing
+      two vertices and their connection.
+
+      If the graph is <em>directed</em>, then the edges are ordered pairs, with
+      the first element being the source and the second element being the
+      destination. If the graph is <em>undirected</em>, then the edges are
+      unordered pairs.
+    </div>
+    <div class="definition">
+      A tree is a graph with a unique vertex (the root) such that for each vertex,
+      there is a unique path from the root to that vertex.
+    </div>
+    <p>
+      With this definition, it is clear that a tree is a connected graph with no
+      cycles.
+    </p>
+    <div class="definition">
+      A bipartite graph is a graph where the vertices can be divided into two
+      disjoint sets, such that the vertices in one set are not connected to each
+      other.
+    </div>
+    <p>
+      Because a graph is a pair of sets, we can use set induction to prove
+      properties about graphs. We will invariably use strong induction using
+      strict subsets of either the vertices or edges. For example, we may define
+      <code>subgraphV g1 g2</code> to mean that the graph \(g_1\) has vertices
+      that are a strict subset of the vertices of \(g_2\).
+    </p>
+
+    <h2 id="summary-of-proof-techniques">Summary of proof techniques</h2>
+    <p>
+      First distinguish between &#8220;substitution&#8221; tactics and
+      &#8220;elimination&#8221; tactics.
+
+      <ul>
+        <li>Substitution tactics replace a term with another term.
+          <code>Subst lemma/asm Into goal/asm Using asms</code></li>
+        <li>Elimination tactics remove a term from the goal.
+          <code>Elims lemma/asm Using var-instantiations, asms, goal</code></li>
+      </ul>
     </p>
 
     <div class="footnotes">
-      <p class="no-indent">Last updated: 2024-12-03 14:03 EST</p>
+      <p class="no-indent">Last updated: 2024-12-04 15:11 EST</p>
       <p class="no-indent" id="fn1">
         [1] M. Aagaard, &#8220;Lecture notes for ECE 208.&#8221;
         Dec. 2024. <a href="#ref1">&#x21A9;</a>
       </p>
+      <p class="no-indent" id="fn2">
+        [2] P. D. Magnus, <em>forall x: an introduction to formal logic.</em>
+        Self-published, 2005. <a href="#ref2">&#x21A9;</a>
+      </p>
+      <p class="no-indent" id="fn3">
+        [3] J. Avigad, L. de Moura, S. Kong, and S. Ullrich,
+        <em>Theorem Proving in Lean 4.</em> 2024. <a href="#ref3">&#x21A9;</a>
     </div>
   </article>
 </main>
