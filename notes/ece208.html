@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Leo Qi</title>
+    <title>Logic 2 - Leo Qi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="ECE 203 course notes" />
     <link rel="stylesheet" href="https://latex.vercel.app/style.min.css" />
-    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" href="/favicon.ico" />
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="stylesheet" href="https://latex.vercel.app/prism/prism.css">
     <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
@@ -64,22 +64,22 @@
 
     <pre>
       <code class="language-lean">
-        Var (x : Nat)
-        |- P
-        By Cases x < 10, x >= 10 /\ even x, x >= 10 /\ odd x;
-        {
-          Subproof 1: "completeness"
-            QED Arith
-          Subproof 2: "case 1"
-            Asm 2/1: x < 10
-            -- Continue subproof
-          Subproof 3: "case 2"
-            Asm 3/1: x >= 10 /\ even x
-            -- Continue subproof
-          Subproof 4: "case 3"
-            Asm 4/1: x >= 10 /\ odd x
-            -- Continue subproof
-        }
+Var (x : Nat)
+|- P
+By Cases x < 10, x >= 10 /\ even x, x >= 10 /\ odd x;
+{
+  Subproof 1: "completeness"
+    QED Arith
+  Subproof 2: "case 1"
+    Asm 2/1: x < 10
+    -- Continue subproof
+  Subproof 3: "case 2"
+    Asm 3/1: x >= 10 /\ even x
+    -- Continue subproof
+  Subproof 4: "case 3"
+    Asm 4/1: x >= 10 /\ odd x
+    -- Continue subproof
+}
       </code>
     </pre>
 
@@ -144,19 +144,19 @@
     </p>
     <pre>
       <code class="language-lean">
-        |- \forall(xs : List Ty), P(xs)
-        By InductList
-        {
-          Subproof 1: "base case"
-            |- P[]
-            QED -- show that this satisfies goal
-          Subproof 2: "inductive case"
-            Asm 2/1: Var (xs: List Ty)
-            Asm 2/2: P xs
-            Asm 2/3: Var (x: Ty)
-              |- P(x :: xs)
-              -- Continue subproof
-        }
+|- \forall(xs : List Ty), P(xs)
+By InductList
+{
+  Subproof 1: "base case"
+    |- P[]
+    QED -- show that this satisfies goal
+  Subproof 2: "inductive case"
+    Asm 2/1: Var (xs: List Ty)
+    Asm 2/2: P xs
+    Asm 2/3: Var (x: Ty)
+    |- P(x :: xs)
+    -- Continue subproof
+}
       </code>
     </pre>
     <p>
@@ -167,23 +167,23 @@
     </p>
     <pre>
       <code class="language-lean">
-        abbrev splice : (xs ys: List Ty) -> List Ty :=
-          | [], ys => ys
-          | x :: xs, ys => x :: (splice x ys)
+abbrev splice : (xs ys: List Ty) -> List Ty :=
+  | [], ys => ys
+  | x :: xs, ys => x :: (splice x ys)
 
-        -- In operation
-        xs1 = [0,1,2]
-        xs2 = [10,11,12,13]
+-- In operation
+xs1 = [0,1,2]
+xs2 = [10,11,12,13]
 
-        splice(xs1, xs2)
-          = splice([0,1,2], [10,11,12,13])
-          = 0 :: splice([1,2], [10,11,12,13])
-          = 0 :: 1 :: splice([2], [10,11,12,13])
-          = 0 :: 1 :: 2 :: splice([], [10,11,12,13])
-          = 0 :: 1 :: 2 :: [10,11,12,13]
-          = 0 :: 1 :: [2,10,11,12,13]
-          = 0 :: [1,2,10,11,12,13]
-          = [0,1,2,10,11,12,13]
+splice(xs1, xs2)
+  = splice([0,1,2], [10,11,12,13])
+  = 0 :: splice([1,2], [10,11,12,13])
+  = 0 :: 1 :: splice([2], [10,11,12,13])
+  = 0 :: 1 :: 2 :: splice([], [10,11,12,13])
+  = 0 :: 1 :: 2 :: [10,11,12,13]
+  = 0 :: 1 :: [2,10,11,12,13]
+  = 0 :: [1,2,10,11,12,13]
+  = [0,1,2,10,11,12,13]
       </code>
     </pre>
    
@@ -196,13 +196,13 @@
     <p>
     <pre>
       <code class="language-lean">
-        abbrev size : (List Ty) -> Nat
-          | []        => 0
-          | (x :: xs) => 1 + size xs
+abbrev size : (List Ty) -> Nat
+  | []        => 0
+  | (x :: xs) => 1 + size xs
 
-        abbrev splice : (xs ys : List Ty) -> List Ty :=
-          | []   , ys => ys
-          | x::xs, ys => x :: (splice x ys)
+abbrev splice : (xs ys : List Ty) -> List Ty :=
+  | []   , ys => ys
+  | x::xs, ys => x :: (splice x ys)
       </code>
     </pre>
     <div class="proof">
