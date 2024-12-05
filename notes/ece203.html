@@ -50,12 +50,12 @@
     </div>
     <p>
       We can now define the function that assigns probabilities to events
-      in the sample space. This function must satisfy The axioms of probability theory
+      in the sample space. This function must satisfy the axioms of probability
       theory.
     </p>
     <div class="definition">
       A probability measure is any measure \(P\) on \(\mathcal{F}\)
-      that satisfies The axioms of probability theory theory:
+      that satisfies the following axioms:
 
       <ol>
         <li>\(P(A) \ge 0\, \forall A\in\mathcal{F}\)</li>
@@ -69,13 +69,14 @@
       represents how likely it is to happen. This is called the <em>probability</em>
       of the event. For the math to make sense, this number must be nonnegative.
       The probability of the entire sample space is 1, so any event that has
-      probability 1 is certain to happen. We can also derive more properties from
-      these axioms. For any subsets \(A, B, C\in\mathcal{F}\):
+      probability 1 is certain to happen, and there cannot be a higher probability.
+      We can also derive more properties from these axioms. For any subsets \(A, B, C\in\mathcal{F}\):
       <span class="sidenote">
         \(P\) did not have to be defined this way. The only
         requirement is that it is a &#8220;positive continuous monotonic function.&#8221;
         An alternate definition could have been from infinity (impossible)
-        <em>down</em> to one (certain)! <sup><a href="#fn1" id="ref1">1</a></sup>
+        <em>down</em> to one (certain)! To do this, take the reciprocal of 
+        any probability as defined here. <sup><a href="#fn1" id="ref1">1</a></sup>
       </span>
     </p>
     <ol>
@@ -87,29 +88,91 @@
 
     <h2 id="random-variables">Random variables</h2>
     <div class="definition">
-      A random variable is a function \(X:\Omega\to\mathbb{R}\) that is
+      A random variable (r.v.) is any function \(X:\Omega\to\mathbb{R}\) that is
       \(\mathcal{F}\) measurable.<sup><a href="#fn2" id="ref2">2</a></sup>
 
       <span class="sidenote">
         This means that for any number \(c\),
-        \(\{\omega\in\Omega: X(\omega) \le c\}\in\mathcal{F}\)
+        \(\{\omega\in\Omega: X(\omega) \le c\}\in\mathcal{F}\). I don't understand
+        this yet.
       </span>
     </div>
     <p>
       If the sample space is finite or countably infinite, \(\mathcal{F}\) is
-      most often defined to be the power set of \(\Omega\), and any function from
+      most often defined to be the power set of \(\Omega\). Then any function from
       \(\Omega\) to \(\mathbb{R}\) will be \(\mathcal{F}\) measurable and thus a
       random variable.
       Therefore, for practical purposes we may assume that any function that
-      maps events (which have corresponding probabilities) to real numbers is a
+      maps outcomes (which have corresponding probabilities) to real numbers is a
       random variable.
     <p>
     <p>
-      This is extremely useful, because we can now give values to events to
-      model real-world phenomena. For example, we can define one random variable
-      \(X\) that represents the number of heads in a series of coin flips to talk
-      about the probability, instead of using the events themselves.
+      We use random variables when we are interested in some function of the
+      outcome as opposed to the actual outcome itself. <a href="#fn6" id="ref6">[6]</a>
+      For example, let us model the experiment of flipping a coin five times.
+      The probability space would be \((\Omega, \mathcal{F}, P)\), and
+      \(\Omega = \{H, T\}^5\). To find the probability that a certain number of
+      heads appears, we can then define a r.v. \(Z\) with the mapping:
+      \[ Z: \Omega\to\mathbb{R} = \left\{ \begin{matrix} HHHHH \mapsto 5 \\
+        HHHHT\mapsto 4 \\
+        HHHTH\mapsto 4 \\
+        HHTHH\mapsto 4 \\
+        HTHHH\mapsto 4 \\
+        THHHH \mapsto 4 \\ 
+        \ldots \\
+        TTTTT \mapsto 0
+        \end{matrix}\right . \]
+      The probability that there are 4 heads can then be written as \(P[Z=4]\).
     </p>
+    <div class="definition">
+      The probability mass function (pmf) of a discrete random variable \(X\) is
+      the function \(p_X(x) = P[X=x]\). It is the mapping
+
+      \[\forall x\in\text{Range}(X), x \mapsto \sum_{\{\omega\in\Omega : X(\omega) = x\}} P[{\omega}]\]
+    </div>
+
+    <h3 id="continuous-rv">Continuous random variables</h3>
+    <div class="definition">
+      \(X\) is a <em>continuous random variable</em> if there exists a non-negative
+      function \(f_X(x)\) such that for any event \(B\in\mathcal{F}\):
+
+      \[P[X\in B] = \int_B f_X(x)dx\]
+
+      called the probability density function (pdf) of \(X\).
+    </div>
+    <p>
+      We integrate over the space of an event \(B\). Recall
+      that \(X: \Omega \to \mathbb{R}\), so essentially the pdf maps each value
+      of the range of \(X\) to its probability.
+
+
+      all the outcomes in the sample space that map to
+      that value 
+      its probability.
+
+      Evaluated in an integral, the pdf represents the likelihood
+      that \(X\) takes on a value in that range. This gives us a straightforward
+      way to define the expected value of continuous r.v:
+    </p>
+    <div class="definition">
+      The expected value of a continuous random variable \(X\) is:
+
+      \[E[X] = \int_{-\infty}^\infty xf_X(x)dx\]
+    </div>
+    <p>
+      Since \(X\) must take a value in \(\mathbb{R}\), this
+      gives us a weighted average. The weight is the probability of \(X\) taking
+      a particular value, and the average is of the values themselves.
+    </p>
+    <p>
+      What happens when we take the value of a random variable, and then apply
+      another function to it? It is hard sometimes to define its pdf (if it maps
+      multiple values to the same value in some way) but we can always define its
+      expected value as a new weighted average.
+
+      \[E[g(X)] = \int_{-\infty}^\infty g(x)f_X(x)dx\]
+    </p>
+
 
     <h2>Bayes' theorem</h2>
     <ul>
@@ -162,6 +225,9 @@
         [5] P. Mitran, &#8220;Lecture notes for ECE 203,&#8221;
         University of Waterloo, 2024. <a href="#ref5">&#x21A9;</a>
       </p>
+      <p class="no-indent" id="fn6">
+        [6] S. Ross, <em>A First Course in Probability</em>, Tenth.
+        Pearson, 2023. <a href="#ref6">&#x21A9;</a>
     </div>
   </article>
 </main>
