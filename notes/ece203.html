@@ -25,6 +25,9 @@
     <ol>
       <li><a href="#probability-axioms">The axioms of probability theory</a></li>
       <li><a href="#random-variables">Random variables</a></li>
+      <ol>
+        <li><a href="#continuous-rv">Continuous random variables</a></li>
+      </ol>
     </ol>
   </nav>
   <main>
@@ -124,11 +127,41 @@
         \end{matrix}\right . \]
       The probability that there are 4 heads can then be written as \(P[Z=4]\).
     </p>
+    <p>
+      <span class="sidenote">
+        The distinction between discrete and continuous r.v. is a technical
+        one, owing to the fact that if the sample space is uncountable,
+        how do we describe the probability of a continuous r.v. taking on an exact value?
+        We may only ask for the probability that it is <em>close to</em> an
+        exact value. The pdf is a way to describe this, and our sums become
+        integrals. <a href="#fn7" id="ref7">[7]</a>
+      </span>
+      Random variables can be discrete or continuous. Discrete random variables
+      model experiments with a finite or countably infinite number of outcomes,
+      while continuous random variables model experiments that deal with
+      continuous quantities like time or distance.
+    </p>
     <div class="definition">
       The probability mass function (pmf) of a discrete random variable \(X\) is
       the function \(p_X(x) = P[X=x]\). It is the mapping
 
       \[\forall x\in\text{Range}(X), x \mapsto \sum_{\{\omega\in\Omega : X(\omega) = x\}} P[{\omega}]\]
+    </div>
+    <div class="definition">
+      The cumulative distribution function (cdf) of a random variable \(X\) is
+      the function \(F_X(x) = P[X\le x]\). Loosely rendered, it is the mapping
+
+      \[\forall x\in\text{Range}(X), x \mapsto \sum_{\{\omega\in\Omega : X(\omega) \le x\}} P[{\omega}]\]
+
+      The cdf is a right-continuous monotone increasing function (known as cadlag).
+    </div>
+    <div class="definition">
+      The expected value of a discrete random variable \(X\) is:
+
+      \[E[X] = \sum_{x\in\text{Range}(X)} x p_X(x)\]
+
+      This is a weighted average of the range of \(X\). The weight is the
+      probability of \(X\) taking each value.
     </div>
 
     <h3 id="continuous-rv">Continuous random variables</h3>
@@ -203,8 +236,26 @@
       \[P[H|E] = \frac{P[E|H]P[H]}{P[E|H]P[H] + P[E|H^c]P[H^c]}\]
     </p>
 
+    <h2 id="limit-theorems">Limit theorems</h2>
+    <div class="lemma">
+      Markov inequality: If \(X\) is a non-negative random variable and \(a>0\):
+
+      \[P[X\ge a] \le \frac{E[X]}{a}\]
+    </div>
+
+    <div class="theorem">
+      Chebyshev's inequality: If \(X\) is a random variable with mean \(\mu\)
+      and variance \(\sigma^2\), then for any \(b>0\):
+
+      \[P[|X-\mu|\ge b] = P[(X-\mu)^2\ge b^2] \le \frac{\sigma^2}{b^2}\]
+    </div>
+    <p>
+      This result provides an upper bound for the probability that a random
+      variable deviates from its mean.
+    </p>
+
     <div class="footnotes">
-      <p class="no-indent">Last updated: 2024-12-03 14:03 EST</p>
+      <p class="no-indent">Last updated: 2024-12-05 16:13 EST</p>
       <p class="no-indent" id="fn1">
         [1] E. T. Jaynes, <em>Probability theory: the logic of science.</em>
         Cambridge University Press, 2003. <a href="#ref1">&#x21A9;</a>
@@ -228,6 +279,11 @@
       <p class="no-indent" id="fn6">
         [6] S. Ross, <em>A First Course in Probability</em>, Tenth.
         Pearson, 2023. <a href="#ref6">&#x21A9;</a>
+      </p>
+      <p class="no-indent" id="fn7">
+        [7] Nykamp DQ, “The idea of a probability density function.”
+        From Math Insight. <a href="http://mathinsight.org/probability_density_function_idea">[Online]</a>
+        <a href="#ref7">&#x21A9;</a>
     </div>
   </article>
 </main>
