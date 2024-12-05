@@ -46,7 +46,7 @@
     <h2>Contents</h2>
     <ol>
       <li><a href="#propositional-logic">Propositional logic</a></li>
-      <li><a href="#predicate-logic">Predicate logic</a></li>
+      <li><a href="#predicates">Predicates</a></li>
       <li><a href="#case-splitting">Case splitting</a></li>
       <li><a href="#induction">Natural number induction</a></li>
       <li><a href="#induction-list">List induction</a></li>
@@ -66,6 +66,95 @@
   <main>
   <article class="indent-pars">
     <h2 id="propositional-logic">Propositional logic</h2>
+    <p>
+      Propositional logic is a set of rules used to reason about the truth or
+      falsity of statements from base assumptions. Originally developed to
+      formalize a good argument, it can be used as a foundation for reasoning
+      and proof. A strong proof requires a set of correct assumptions, a set of
+      meaningful constraints formed by propositions and predicates, and a set of 
+      tactics, or proving techniques, to establish the consistency of our system
+      and whether it will behave as we intend.
+    </p>
+
+    <div class="definition">
+      A proposition is a statement that is either true or false.
+    </div>
+    <div class="definition">
+      An environment is a set of values, either true or false, given to each atomic proposition
+      so that propositions can be evaluated.
+    </div>
+
+
+    <h2 id="predicates">Predicates and quantifiers</h2>
+    <div class="definition">
+      A predicate is a function that returns a proposition.
+    </div>
+    <blockquote>
+      Think of typed predicate logic as a programming language for reasoning
+      about objects. <a href="#fn1" id="ref1">[1]</a>
+    </blockquote>
+    <p>
+      Predicates work with types and quantifiers to make statements about
+      objects, groups of objects, attributes of objects, and relationships
+      between objects.
+    </p>
+    <div class="definition">
+      A quantifier is a logical operator that binds variables to a predicate.
+      They are used to express statements about objects in a domain.
+    </div>
+    <p>
+      There are three types of quantifiers: the universal quantifier
+      &#8220;\(\forall\)&#8221;,
+      the existential quantifier &#8220;\(\exists\)&#8221;, and the uniqueness qualifier
+      &#8220;\(\exists!\)&#8221;. The universal quantifier asserts that a predicate is true
+      for every objects in a domain, while the existential quantifier asserts
+      that a predicate is true for at least one object in a domain. Finally,
+      the uniqueness quantifier asserts that there is exactly one object in a
+      domain that satisfies the predicate. Each quantifier must always be
+      followed by a variable with a type and then a predicate.
+    </p>
+    <pre><code class="language-lean">-- here are some types
+variable (person : Type)
+variable (liquid : Type)
+
+-- this is a predicate!
+variable (drinks : person -> liquid -> Prop)
+variable (water : liquid)
+
+-- now we can say things like...
+\forall (p : person), drinks p water -- everyone drinks water
+\exists (p : person), drinks p water -- someone drinks water
+\forall (p : person), \exists (l : liquid), drinks p l -- everyone drinks something
+\exists! (p : person), drinks p water -- only one person drinks water</code></pre>
+    <p>
+      Of course, these statements do not make sense except when they are taken
+      as an <em>assumption</em>, <em>goal</em>, or subgoal in a proof;
+      in other words, they must be considered in the context of their <em>environment</em>.
+    </p>
+
+    <h3 id="quantifier-scope">Quantifier scope</h3>
+    <p>
+      When we write statements with quantifiers, we must distinguish between
+      <em>bound</em> and <em>free</em> variables. A bound variable is within
+      the scope of a quantifier for that variable, while a free one
+      is not bound by any quantifier. But how can we tell if a variable is within
+      the scope of any quantifier?
+    </p>
+    <p>
+      Well, each quantifier introduced has a scope: from where it is introduced
+      to the end of the statement or an unmatched right parenthesis. Any variable
+      that is introduced by a quantifier is bound by that quantifier.
+      <em>Well-formed formulas</em> (wff) are closed if they have no free variables.
+      Therefore, careful use of parentheses is necessary to ensure that the
+      scope of each quantifier is clear.
+    </p>
+    <pre><code class="language-lean">-- Here is a well-formed formula
+\forall (x : Nat), \exists (y : Nat), x < y
+-- Here is a poorly-formed formula
+\forall (x : Nat), (\exists (y : Nat), x < y) -> y > x -- outer y is free</code></pre>
+    <p>
+      The outer \(y\) has no meaning because it is not bound by any quantifier.
+    </p>
 
     <h2 id="case-splitting">Case splitting</h2>
     <div class="definition">
@@ -455,7 +544,7 @@ abbrev isBinaryTree (g : Graph) : Prop :=
     </ol>
 
     <div class="footnotes">
-      <p class="no-indent">Last updated: 2024-12-04 15:11 EST</p>
+      <p class="no-indent">Last updated: 2024-12-04 22:13 EST</p>
       <p class="no-indent" id="fn1">
         [1] M. Aagaard, &#8220;Lecture notes for ECE 208.&#8221;
         Dec. 2024. <a href="#ref1">&#x21A9;</a>
