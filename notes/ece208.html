@@ -55,6 +55,12 @@
       </ol>
       <li><a href="#induction-set">Set induction</a></li>
       <li><a href="#graphs">Graphs</a></li>
+      <ol>
+        <li><a href="#formalizing-a-tree">Formalizing a tree</a></li>
+        <li><a href="#directed-acyclic-graphs">Directed acyclic graphs</a></li>
+        <li><a href="#clique">Cliques</a></li>
+      </ol>
+      <li><a href="#system-verification">System verification</a></li>
     </ol>
   </nav>
   <main>
@@ -341,7 +347,7 @@ abbrev isGraph (g:Graph) :=
       the first element being the source and the second element being the
       destination. If the graph is <em>undirected</em>, then the edges are
       unordered pairs.
-    </div>
+    </p>
     <p>
       Now, we can construct the necessary propositions to perform strong induction
       with graphs. Remember that strong induction requires that an "empty graph"
@@ -364,7 +370,6 @@ abbrev subgraphE (g1 g2 : Graph) : Prop :=
       Note that we distinguish between strict subsets and non-strict subsets
       using the symbols \(\subset\) and \(\subseteq\), respectively.
     </p>
-
     <h3 id="formalizing-a-tree">Formalizing a tree</h3>
     <div class="definition">
       A tree is a graph with a unique vertex (the root) such that for each vertex,
@@ -401,11 +406,7 @@ abbrev existsPath (v1 v2 : Vertex) (g : Graph) : Prop :=
     <p>
       We can also define a binary tree as a tree where each vertex has at most two children.
     </p>
-    <pre><code class="language-lean">abbrev size : (Set Ty) -> Nat
-  | []        => 0
-  | (x :: xs) => 1 + size xs
-
-abbrev next (v1 : Vertex) (g : Graph) : Set Vertex :=
+    <pre><code class="language-lean">abbrev next (v1 : Vertex) (g : Graph) : Set Vertex :=
   { v2 \in vertices g, (v1, v2) \in edges g }
 
 abbrev isBinaryTree (g : Graph) : Prop :=
@@ -416,26 +417,42 @@ abbrev isBinaryTree (g : Graph) : Prop :=
       disjoint sets, such that the vertices in one set are not connected to each
       other.
     </div>
-    <p>
-      Because a graph is a pair of sets, we can use set induction to prove
-      properties about graphs. We will invariably use strong induction using
-      strict subsets of either the vertices or edges. For example, we may define
-      <code>subgraphV g1 g2</code> to mean that the graph \(g_1\) has vertices
-      that are a strict subset of the vertices of \(g_2\).
-    </p>
 
-    <h2 id="summary-of-proof-techniques">Summary of proof techniques</h2>
+    <h3 id="directed-acyclic-graphs">Directed acyclic graphs</h3>
     <p>
-      First distinguish between &#8220;substitution&#8221; tactics and
-      &#8220;elimination&#8221; tactics.
-
-      <ul>
-        <li>Substitution tactics replace a term with another term.
-          <code>Subst lemma/asm Into goal/asm Using asms</code></li>
-        <li>Elimination tactics remove a term from the goal.
-          <code>Elims lemma/asm Using var-instantiations, asms, goal</code></li>
-      </ul>
+      A directed acyclic graph (DAG) is a directed graph with no directed cycles.
+      This means that you can never return to the same vertex by travelling along
+      the edges of the graph. All trees are DAGs. With what we have above,
+      we can write a formal proposition checking if a graph is a DAG.
     </p>
+    <pre><code class="language-lean">abbrev isDag (g : Graph) : Prop :=
+  isGraph g ∧
+  ∀ (v1 v2: Vertex), existsPath v1 v2 g
+    -> \not(existsPath v2 v1 g)</code></pre>
+
+    <h3 id="clique">Cliques</h3>
+    <p>
+      A clique is a subgraph (not strict subset) where all pairs of distinct
+      vertices are connected by an edge. This is one of those definitions that
+      is easier to understand as a formal propositon:
+    </p>
+    <pre><code class="language-lean">abbrev isClique (g1 g2 : Graph) : Prop :=
+  isGraph g1 ∧
+  isGraph g2 ∧
+  vertices g1 ⊆ vertices g2 ∧
+  edges g1 ⊆ edges g2 ∧
+  ∀ (v1 v2 : Vertex), {v1, v2} ⊆ vertices g1 -> (v1, v2) \in edges g1</code></pre>
+
+    <h2 id="system-verification">System verification</h2>
+    <p>
+      Let's talk briefly about <em>system verification</em>, or how we prove
+      that a system will behave as intended (correctness) and that the specifications
+      themselves make sense (consistency).
+    <ol>
+      <li>Model the problem as a set of predicates and a set of propositions
+        representing the specifications (predicates) and constraints (propositions)
+        of the system.</li>
+    </ol>
 
     <div class="footnotes">
       <p class="no-indent">Last updated: 2024-12-04 15:11 EST</p>
