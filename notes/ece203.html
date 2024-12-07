@@ -395,15 +395,37 @@
 
       \[p_{X, Y}(x, y) = P[X=x, Y=y]\]
     </div>
+
+    <h3 id="joint-continuous-rv">Joint continuous random variables</h3>
     <div class="definition">
-      The joint <em>probability density function</em> (pdf) of two continuous
-      random variables \(X\) and \(Y\) is the function
+      The random variables \(X\) and \(Y\) are jointly continuous if there exists
+      a non-negative function \(f_{X, Y}(x, y)\) (the joint pdf) such that
+
+      \[F_{X, Y}(x, y) = \int_{-\infty}^x\int_{-\infty}^y f_{X, Y}(u, v)dvdu\]
+    </div>
+    <p>
+      By definition, the joint pdf is the derivative of the joint cdf:
 
       \[f_{X, Y}(x, y) = \frac{\partial^2}{\partial x\partial y} F_{X, Y}(x, y)\]
+
+      And the probability of the random variables falling within any region \(R\)
+      that has a piecewise differentiable boundary is:
+
+      \[P\{(X, Y)\in R\} = \int\int_R f_{X, Y}(x, y)dxdy\]
+    </p>
+    <div class="definition">
+      The expectation of two jointly continuous random variables \(X\) and \(Y\)
+      is:
+
+      \[E[g(X, Y)] = \int_{-\infty}^\infty \int_{-\infty}^\infty g(x, y)f_{X, Y}(x, y)dxdy\]
     </div>
+    <p>
+      This implies that expectation is still linear for jointly continuous
+      r.v. For example, \(E[aX + bY + c] = aE[X] + bE[Y] + c\).
+    </p>
 
     <div class="footnotes">
-      <p class="no-indent">Last updated: 2024-12-06 19:31 EST</p>
+      <p class="no-indent">Last updated: 2024-12-07 9:18 EST</p>
       <p class="no-indent" id="fn1">
         [1] E. T. Jaynes, <em>Probability theory: the logic of science.</em>
         Cambridge University Press, 2003. <a href="#ref1">&#x21A9;</a>
