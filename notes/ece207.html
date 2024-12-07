@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Signals 1 - Leo Qi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ECE 207 course notes" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/assets/latex.vercel.app.style.min.css" />
+    <script id="MathJax-script" async src="/assets/npm.mathjax3.es5.tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/latex.vercel.app.prism.css" />
+    <script async defer src="/assets/npm.prism.min.js"></script>
+    <link rel="icon" href="/favicon.ico" />
+</head>
+<body class="libertinus">
+  <header>
+    <h1>Signals 1</h1>
+    <p class="author">Leo Qi <br> December 5th, 2024</p>
+  </header>
+  <div class="abstract">
+    <h2>Abstract</h2>
+    <p>
+      Linear time-invariant systems and their system response due to various
+      input signals. System stability.
+    </p>
+  </div>
+  <nav role="navigation" class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#lti-stability">LTI system stability</a></li>
+      <li><a href="#fourier-transform">Fourier transform</a></li>
+    </ol>
+  </nav>
+  <main>
+  <article class="indent-pars">
+    <div class="definition">
+      A <em>linear time-invariant</em> (LTI) system is a system where
+
+      <ol>
+        <li>the relationship between the input \(x(t)\) and output \(y(t)\) is linear</li>
+        <li>if the input is shifted in time, the output is also shifted in time</li>
+      </ol>
+    </div>
+    <p>
+      The fundamental property of LTI systems is that any LTI system can be 
+      completely characterized by its impulse response \(h(t)\). The output
+      of the system, \(y(t)\), for any input is then the convolution of the input signal \(x(t)\)
+      and the impulse response \(h(t)\).
+    </p>
+    <div class="definition">
+      A system mode is a complex exponential of the form \(s_k(t) = e^{\omega t}\).
+      where \(\omega\) is the frequency of the mode.
+    </div>
+
+    <h2 id="lti-stability">LTI system stability</h2>
+    <div class="definition">
+      A system is asymptotically stable if for all system modes \(s_k(t)\), 
+
+      \[\lim_{t\to\infty} s_k(t) = 0\]
+    </div>
+    <p>
+      The system is stable if all modes decay to zero as \(t\to\infty\).
+      Since the modes are complex exponentials, the system is stable if all
+      modes have negative real parts.
+    </p>
+    <div class="definition">
+      A system is marginally stable if system modes \(s_k(t)\) decay to
+      zero but some remain constant as \(t\to\infty\).
+
+      \[\lim_{t\to\infty} s_k(t) = c_k\]
+    </div>
+    <div class="definition">
+      A system is unstable if there exists at least one system mode \(s_k(t)\)
+      that grows without bound as \(t\to\infty\).
+    </div>
+    <p>
+      Note that BIBO stability is implied by asymptotic stability, which is 
+      a stronger stability condition.
+    </p>
+    <div class="definition">
+      A system is <em>bounded-input bounded-output</em> (BIBO) stable if for any
+      bounded input signal \(x(t)\), the output signal \(y(t)\) is also bounded.
+
+      Note that both asymptoically stable and marginally stable systems are BIBO stable.
+    </div>
+
+    <div class="footnotes">
+      <p class="no-indent">Last updated: 2024-12-05 16:13 EST</p>
+      <p class="no-indent" id="fn1">
+        [1] E. T. Jaynes, <em>Probability theory: the logic of science.</em>
+        Cambridge University Press, 2003. <a href="#ref1">&#x21A9;</a>
+      </p>
+      <p class="no-indent" id="fn2">
+        [2] B. Hajek, <em>Random processes for engineers.</em>
+        Cambridge University Press, 2015. <a href="#ref2">&#x21A9;</a>
+      </p>
+      <p class="no-indent" id="fn3">
+        [3] K. Azad, &#8220;An intuitive (and short) explanation of bayes' theorem,&#8221;
+        Better Explained. <a href="#ref3">&#x21A9;</a>
+      </p>
+      <p class="no-indent" id="fn4">
+        [4] K. R. Davidson, &#8220;Measure Theory - Notes for Pure Math 451,&#8221;
+        University of Waterloo, 2022. <a href="#ref4">&#x21A9;</a>
+      </p>
+      <p class="no-indent" id="fn5">
+        [5] P. Mitran, &#8220;Lecture notes for ECE 203,&#8221;
+        University of Waterloo, 2024. <a href="#ref5">&#x21A9;</a>
+      </p>
+      <p class="no-indent" id="fn6">
+        [6] S. Ross, <em>A First Course in Probability</em>, Tenth.
+        Pearson, 2023. <a href="#ref6">&#x21A9;</a>
+      </p>
+      <p class="no-indent" id="fn7">
+        [7] Nykamp DQ, “The idea of a probability density function.”
+        From Math Insight. <a href="http://mathinsight.org/probability_density_function_idea">[Online]</a>
+        <a href="#ref7">&#x21A9;</a>
+    </div>
+  </article>
+</main>
+</body>
+</html>

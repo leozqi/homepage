@@ -28,6 +28,7 @@
       <ol>
         <li><a href="#continuous-rv">Continuous random variables</a></li>
       </ol>
+      <li><a href="#jointly-distributed-rv">Jointly distributed random variables</a></li>
     </ol>
   </nav>
   <main>
@@ -236,6 +237,69 @@
       \[P[H|E] = \frac{P[E|H]P[H]}{P[E|H]P[H] + P[E|H^c]P[H^c]}\]
     </p>
 
+    <h2 id="conditional-expectation">Conditional expectation</h2>
+    <p>
+      For two discrete r.v. \(X\) and \(Y\), we may define the conditional
+      pmf of \(X\) given \(Y\) as:
+
+      \[p_{X|Y}(x|y) = P[X=x|Y=y] = {p_{XY}(x, y)\over p_Y(y)}\]
+
+      given that \(p_Y(y) > 0\).
+    </p>
+    <div class="definition">
+      The conditional expectation of a random variable \(X\) given an event \(A\) is:
+
+      \[E[X|Y = y] = \sum_x x p_{X|Y}(x|y)\]
+    </div>
+    <p>
+      For continuous r.v., the conditional expectation is defined using the
+      conditional pdf:
+
+      \[E[X|Y = y] = \int_{-\infty}^\infty x f_{X|Y}(x|y)dx\]
+
+      In both cases, this expectation satisfies the properties of an ordinary
+      expectation. Most importantly,
+
+      \[E\left[ \sum^n_{i=1} X_i | Y = y\right] = \sum^n_{i=1} E[X_i | Y = y]\]
+
+      Further, the law of total expectation (also known as the law of
+      iterated expectations) states that
+
+      \[E[X] = E[E[X|Y]]\]
+    </p>
+    <p>
+      Conditioning can be used to compute probabilities. Let \(A\) be an event,
+      \(Y\) be a random variable such that
+
+      \[Y\in\{y_1, y_2, \ldots \}\]
+
+      and \(B_i\) be the event that \(Y = y_i\). Then by the law of total
+      probability,
+
+      \[P[A] = \sum_i P[A|B_i]P[B_i]\]
+
+      since \(B\) is a partition of the sample space.
+
+      In continuous form, this looks like
+
+      \[P[A] = \int_{-\infty}^\infty P[A|Y=y]f_Y(y)dy\]
+    </p>
+
+    <h2 id="moment-generating-functions">Moment generating functions</h2>
+    <div class="definition">
+      The moment generating function (mgf) of a random variable \(X\) is the
+      function \(M_X(t) = E[e^{tX}]\).
+
+      \[ M_X(t) = \left\{ \begin{matrix} \sum_x e^{tx} p_X(x) & \text{discrete} \\
+        \int_{-\infty}^\infty e^{tx} f_X(x)dx & \text{continuous} \end{matrix}\right . \]
+    </div>
+    <p>
+      The mgf is useful because it allows us to calculate the nth moment of a
+      random variable.
+
+      \[E[X^n] = \left. \frac{d^n}{dt^n} M_X(t) \right|_{t=0}\]
+    </p>
+
     <h2 id="limit-theorems">Limit theorems</h2>
     <div class="lemma">
       Markov inequality: If \(X\) is a non-negative random variable and \(a>0\):
@@ -254,8 +318,92 @@
       variable deviates from its mean.
     </p>
 
+    <div class="theorem">
+      Weak law of large numbers: Let \(X_1, X_2, \ldots\) be independent and
+      identically distributed random variables (iid) with common mean \(\mu\).
+      Then, for any \(\epsilon\ge 0\):
+
+      \[P\left[\left|\frac{1}{n}\sum_{i=1}^n X_i - \mu\right| \ge \epsilon\right] \to 0\]
+
+      as \(n\to\infty\).
+    </div>
+
+    <div class="theorem">
+      The central limit theorem: Let \(X_1, X_2, \ldots\) be independent and
+      identically distributed random variables (iid) with common mean \(\mu\)
+      and variance \(\sigma^2\). Then, the distribution of
+
+      \[Z_n = \frac{1}{\sqrt{n}}\sum_{i=1}^n \frac{X_i - \mu}{\sigma}\]
+
+      converges to the standard normal distribution as \(n\to\infty\).
+    </div>
+
+    <div class="theorem">
+      The strong law of large numbers: Let \(X_1, X_2, \ldots\) be independent
+      and identically distributed random variables (iid) with common mean
+      \(E[X_i] = \mu\). Then
+
+      \[ P\left[\lim_{n\to\infty} \frac{1}{n}\sum_{i=1}^n X_i = \mu\right] = 1\]
+    </div>
+
+    <h2 id="jointly-distributed-rv">Jointly distributed random variables</h2>
+    <p>
+      In many applications, we are interested in mulitple dependent random
+      variables and the strength of their dependence. We can start by defining
+      the joint cumulative distribution function (cdf) of two random variables
+      \(X\) and \(Y\) in the same probability space, since it exists for
+      both discrete and continuous random variables.
+    </p>
+    <div class="definition">
+      The joint <em>cumulative distributon function</em> (cdf) of \(X\) and
+      \(Y\) is the function of two variables defined by
+
+      \[ F_{X, Y}(u, v) = P\{X\le u, Y\le v\} \forall (u, v)\in\mathbb{R}^2\]
+    </div>
+    <p>
+      To reiterate, this is a mapping from a plane of points \(X, Y\) to one
+      probability value representing the likelihood that the outcome will be
+      mapped to the region \(\{(x, y): x\le u, y\le v\}\). To find the probability
+      that a point is mapped within any rectangle \(R = (a, b]\times(c, d]\),
+      the equation is
+
+      \[P\{(X, Y)\in R\} = F_{X, Y}(b, d) - F_{X, Y}(a, d) - F_{X, Y}(b, c) + F_{X, Y}(a, c)\]
+
+      Why this is so can be understood by drawing the overlapping regions of
+      \(\{(x, y): x\le b, y\le d\}\) and \(\{(x, y): x\le a, y\le c\}\).
+    </p>
+    <figure>
+      <center>
+        <img src="/images/joint-cdf.png" alt="Joint CDF" loading="lazy" width="400" height="300" />
+      </center>
+      <figcaption>Probability of \(R\)</figcaption>
+    </figure>
+    <div class="definition">
+      The marginal cdf of a random variable \(X\) is the cdf of \(X\) alone,
+      given its joint cdf with another random variable \(Y\):
+
+      \[F_X(x) = \lim_{y\to\infty} F_{X, Y}(x, y)\]
+    </div>
+    <p>
+      With the joint cdf, we can define the joint probability mass function (pmf)
+      for the discrete case and the joint probability density function (pdf) for
+      the continuous case.
+    </p>
+    <div class="definition">
+      The joint <em>probability mass function</em> (pmf) of two discrete random
+      variables \(X\) and \(Y\) is the function
+
+      \[p_{X, Y}(x, y) = P[X=x, Y=y]\]
+    </div>
+    <div class="definition">
+      The joint <em>probability density function</em> (pdf) of two continuous
+      random variables \(X\) and \(Y\) is the function
+
+      \[f_{X, Y}(x, y) = \frac{\partial^2}{\partial x\partial y} F_{X, Y}(x, y)\]
+    </div>
+
     <div class="footnotes">
-      <p class="no-indent">Last updated: 2024-12-05 16:13 EST</p>
+      <p class="no-indent">Last updated: 2024-12-06 19:31 EST</p>
       <p class="no-indent" id="fn1">
         [1] E. T. Jaynes, <em>Probability theory: the logic of science.</em>
         Cambridge University Press, 2003. <a href="#ref1">&#x21A9;</a>
